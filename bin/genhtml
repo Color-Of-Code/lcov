@@ -7454,12 +7454,15 @@ sub write_header_line(*@)
     write_html($handle, "          <tr>\n");
     foreach my $entry (@content) {
         my ($width, $class, $text, $colspan, $title) = @{$entry};
-        my %tags = ("width"   => $width,
-                    "class"   => $class,
-                    "colspan" => $colspan,
-                    "title"   => $title);
+        my @tags = (
+            ["width",   $width],
+            ["class",   $class],
+            ["colspan", $colspan],
+            ["title",   $title]
+        );        
         my $str = "            <td";
-        while (my ($t, $v) = each(%tags)) {
+        foreach my $tag (@tags) {
+            my ($t, $v) = @$tag;
             $str .= " $t=\"$v\""
                 if defined($v);
         }
